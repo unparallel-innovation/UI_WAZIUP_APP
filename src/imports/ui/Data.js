@@ -97,7 +97,7 @@ class Data_ extends Component {
     var weatherStationHumidity = this.props.weatherStation.current.humidity
     var apixuHumidity = this.props.apixu.current.humidity
     var darkSkyHumidity = this.props.darkSky.current.humidity
-    var showLoading = (this.props.match.params.date!=this.props.startDate && this.props.match.params.date!=undefined)
+    var showLoading = this.props.match.params.date!=this.props.startDate && this.props.match.params.date!=undefined
     return (
       <Route render={({history})=>(
         <div>
@@ -109,7 +109,6 @@ class Data_ extends Component {
                 selected={this.props.match.params.date?moment(this.props.match.params.date):moment()}
                 onChange={this.handleChange}
                 dateFormat="DD-MM-YYYY"
-                style={{textAlign:"center"}}
             />
             <br></br>
             {this.renderGraph("historic","temperature", "Temperature", "ºC")}
@@ -147,9 +146,9 @@ class Data_ extends Component {
                 </tr>
                 <tr>
                   <th scope="row">Last Observation</th>
-                  <td>{moment(this.props.weatherStation.current.date).format(dateFormat)}</td>
-                  <td colSpan="2">{moment(this.props.apixu.current.date).format(dateFormat)}</td>
-                  <td colSpan="2">{moment(this.props.darkSky.current.date).format(dateFormat)}</td>
+                  <td>{this.props.weatherStation.current.date?moment(this.props.weatherStation.current.date).format(dateFormat):""}</td>
+                  <td colSpan="2">{this.props.apixu.current.date?moment(this.props.apixu.current.date).format(dateFormat):""}</td>
+                  <td colSpan="2">{this.props.darkSky.current.date?moment(this.props.darkSky.current.date).format(dateFormat):""}</td>
                 </tr>
               </tbody>
             </Table>

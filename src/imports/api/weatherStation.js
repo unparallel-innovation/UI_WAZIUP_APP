@@ -53,7 +53,6 @@ function weatherStation(callback,startDate){
           if(weatherStationDataCurrent.data)
           {
             if(weatherStationDataCurrent.data){
-              console.log(WSParsedData[WSParsedData.length-1])
               var temperature = null;
               for(var i=WSParsedData.length-1;i>0;i--)
               {

@@ -4880,7 +4880,7 @@ module.exports = {
   "_args": [
     [
       "babel-runtime@6.26.0",
-      "/Users/antoniogoncalves/Documents/WAZIUP/app/UI_WAZIUP_APP"
+      "/Users/antoniogoncalves/Documents/WAZIUP/app/UI_WAZIUP_APP/src"
     ]
   ],
   "_from": "babel-runtime@6.26.0",
@@ -4906,7 +4906,7 @@ module.exports = {
   ],
   "_resolved": "https://registry.npmjs.org/babel-runtime/-/babel-runtime-6.26.0.tgz",
   "_spec": "6.26.0",
-  "_where": "/Users/antoniogoncalves/Documents/WAZIUP/app/UI_WAZIUP_APP",
+  "_where": "/Users/antoniogoncalves/Documents/WAZIUP/app/UI_WAZIUP_APP/src",
   "author": {
     "name": "Sebastian McKenzie",
     "email": "sebmck@gmail.com"
