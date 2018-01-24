@@ -3,8 +3,8 @@
     "name": "standard-minifier-js",
     "version": "2.2.3"
   },
-  "totalMinifiedBytes": 2059754,
-  "totalMinifiedGzipBytes": 600910,
+  "totalMinifiedBytes": 2059853,
+  "totalMinifiedGzipBytes": 600946,
   "minifiedBytesByPackage": {
     "packages/meteor.js": 9011,
     "packages/meteor-base.js": 68,
@@ -1322,7 +1322,7 @@
     "packages/autoupdate.js": 1998,
     "packages/global-imports.js": 915,
     "app/app.js": [
-      11488,
+      11587,
       {
         "client": {
           "template.main.js": 157,
@@ -1330,15 +1330,15 @@
         },
         "imports": {
           "api": {
-            "apixu.js": 997,
-            "darkSky.js": 720,
-            "data.js": 1514,
+            "apixu.js": 1008,
+            "darkSky.js": 735,
+            "data.js": 1555,
             "weatherStation.js": 1318
           },
           "ui": {
             "App.js": 950,
             "Data.css": 141,
-            "Data.js": 4967
+            "Data.js": 4999
           }
         }
       }

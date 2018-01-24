@@ -11,8 +11,8 @@ export default class App extends Component {
     return (
       <HashRouter>
         <div>
-          <Route exact path="/" component={Data} />
-          <Route path="/:date" component={Data} />
+          <Route exact path="/" component={Data}/>
+          <Route path="/:date" component={Data}/>
         </div>
       </HashRouter>
     );

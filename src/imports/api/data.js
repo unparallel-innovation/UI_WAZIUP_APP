@@ -68,8 +68,8 @@ function getDiffVector(weatherStationData,dataVect){
   return diff
 }
 
-function postDataLoader(props, onData,e) {
-
+function postDataLoader(props, onData,env) {
+  var location = env.location?env.location:"38.67,-9.2"
   var date = new Date(props.match.params.date).getTime();
   var d = new Date();
   d.setHours(0,0,0,0);
@@ -89,8 +89,8 @@ function postDataLoader(props, onData,e) {
           darkSky: darkSkyData,
           startDate: moment(startDate).format('YYYY-MM-DD')
         })
-      },startDate);
-    },startDate);
+      },startDate,location);
+    },startDate,location);
   },startDate)
 }
 if(Meteor.isServer){

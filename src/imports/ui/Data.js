@@ -11,6 +11,9 @@ import 'react-datepicker/dist/react-datepicker.css';
 import './Data.css'
 // App component - represents the whole app
 export {Data}
+
+const location = "38.67,-9.2"
+
 class Data_ extends Component {
   constructor(props){
     super(props)
@@ -159,6 +162,6 @@ class Data_ extends Component {
 }
 
 
-const Data = compose(postDataLoader,{loadingHandler: () => (
+const Data = compose(postDataLoader,{env:{location: location},loadingHandler: () => (
   <p>Loading...</p>
 )})(Data_);

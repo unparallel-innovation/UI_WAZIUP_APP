@@ -1,9 +1,9 @@
 export {darkSky}
 
-function darkSky(callback,startDate){
-
+function darkSky(callback,startDate,location){
+  var location = location?location:"38.67,-9.2";
   var currentTime = Math.round((new Date(startDate)).getTime()/1000)
-  Meteor.call('getPage','https://api.darksky.net/forecast/7902d68f0b5648cce7b9b12139451974/38.67,-9.2,'+currentTime+'?units=si',{timeout:15000},function(err,darkSkyData){
+  Meteor.call('getPage','https://api.darksky.net/forecast/7902d68f0b5648cce7b9b12139451974/'+location+','+currentTime+'?units=si',{timeout:15000},function(err,darkSkyData){
     //Meteor.call('getPage','https://api.darksky.net/forecast/7902d68f0b5648cce7b9b12139451974/38.67,-9.2?units=si',function(err,darkSkyDataLast){
 
     //Meteor.call('getPage','http://www.sapo.pt',function(err,darkSkyData){
