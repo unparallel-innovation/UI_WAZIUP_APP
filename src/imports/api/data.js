@@ -35,6 +35,7 @@ function getDiffVector(weatherStationData,dataVect){
           for(var i=0;i<weatherStationData.historic.length;i++)
           {
             var delta = record.date-weatherStationData.historic[i].date
+
             if(delta<3600000 && delta>0){
               if(weatherStationData.historic[i].temperature)
               {
