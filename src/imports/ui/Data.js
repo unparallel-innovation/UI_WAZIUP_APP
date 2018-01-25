@@ -12,7 +12,14 @@ import './Data.css'
 // App component - represents the whole app
 export {Data}
 
-const location = "38.67,-9.2"
+const config = {
+  location: "38.67,-9.2",
+  elasticsearchUrl : "http://elasticsearch.waziup.io/waziup-ui-weather/_search",
+  elasticsearchSearchQuery : "name:WeatherStationUI",
+  brokerUrl : "http://broker.waziup.io/v2/entities/WeatherStationUI",
+  fiwareServicePath : "/UI/WEATHER",
+  fiwareService : "waziup"
+}
 
 class Data_ extends Component {
   constructor(props){
@@ -25,12 +32,12 @@ class Data_ extends Component {
     }).map(
       record=>([record.date,record[field]])
     ):[];
-    var apixu = this.props.apixu[type]?this.props.apixu[type].filter(function(record){
+    var apixu = this.props.apixu && this.props.apixu[type]?this.props.apixu[type].filter(function(record){
       return record[field]
     }).map(
       record=>([record.date,record[field]])
     ):[];
-    var darkSky = this.props.darkSky[type]?this.props.darkSky[type].filter(function(record){
+    var darkSky = this.props.darkSky && this.props.darkSky[type]?this.props.darkSky[type].filter(function(record){
       return record[field]
     }).map(
       record=>([record.date,record[field]])
@@ -92,14 +99,14 @@ class Data_ extends Component {
     this.props.history.push(date.format("YYYY-MM-DD"))
   }
   render() {
-    var dateFormat = 'DD-MM-YYYY, h:mm:ss a'
-    var weatherStationTemp = this.props.weatherStation.current.temperature
-    var apixuTemp = this.props.apixu.current.temperature
-    var darkSkyTemp = this.props.darkSky.current.temperature
+    var dateFormat = 'DD-MM-YYYY, H:mm:ss'
+    var weatherStationTemp = this.props.weatherStation?this.props.weatherStation.current.temperature:""
+    var apixuTemp = this.props.apixu?this.props.apixu.current.temperature:""
+    var darkSkyTemp = this.props.darkSky?this.props.darkSky.current.temperature:""
 
-    var weatherStationHumidity = this.props.weatherStation.current.humidity
-    var apixuHumidity = this.props.apixu.current.humidity
-    var darkSkyHumidity = this.props.darkSky.current.humidity
+    var weatherStationHumidity = this.props.weatherStation?this.props.weatherStation.current.humidity:""
+    var apixuHumidity = this.props.apixu?this.props.apixu.current.humidity:""
+    var darkSkyHumidity = this.props.darkSky?this.props.darkSky.current.humidity:""
     var showLoading = this.props.match.params.date!=this.props.startDate && this.props.match.params.date!=undefined
     return (
       <Route render={({history})=>(
@@ -107,17 +114,6 @@ class Data_ extends Component {
           {showLoading?<p>Loading...</p>:""}
           {!showLoading?<Container>
             <br></br>
-            Showing data from:
-            <DatePicker
-                selected={this.props.match.params.date?moment(this.props.match.params.date):moment()}
-                onChange={this.handleChange}
-                dateFormat="DD-MM-YYYY"
-            />
-            <br></br>
-            {this.renderGraph("historic","temperature", "Temperature", "ºC")}
-            {this.renderGraph("historic","humidity", "Humidity", "%")}
-            {this.renderGraph("diff","temperature", "Temperature (Difference from WAZIUP Weather Station)", "ΔºC")}
-            {this.renderGraph("diff","humidity", "Humidity (Difference from WAZIUP Weather Station)", "Δ%")}
             <h5>Current Weather Data</h5>
             <Table>
               <thead>
@@ -150,11 +146,25 @@ class Data_ extends Component {
                 <tr>
                   <th scope="row">Last Observation</th>
                   <td>{this.props.weatherStation.current.date?moment(this.props.weatherStation.current.date).format(dateFormat):""}</td>
-                  <td colSpan="2">{this.props.apixu.current.date?moment(this.props.apixu.current.date).format(dateFormat):""}</td>
-                  <td colSpan="2">{this.props.darkSky.current.date?moment(this.props.darkSky.current.date).format(dateFormat):""}</td>
+                  <td colSpan="2">{this.props.apixu && this.props.apixu.current.date?moment(this.props.apixu.current.date).format(dateFormat):""}</td>
+                  <td colSpan="2">{this.props.darkSky && this.props.darkSky.current.date?moment(this.props.darkSky.current.date).format(dateFormat):""}</td>
                 </tr>
               </tbody>
             </Table>
+            <hr></hr>
+            <h5>Historic Weather Data</h5>
+            Showing data from:
+            <DatePicker
+                selected={this.props.match.params.date?moment(this.props.match.params.date):moment()}
+                onChange={this.handleChange}
+                dateFormat="DD-MM-YYYY"
+            />
+            <br></br>
+            {this.renderGraph("historic","temperature", "Temperature", "ºC")}
+            {this.renderGraph("historic","humidity", "Humidity", "%")}
+            {this.renderGraph("diff","temperature", "Temperature (Difference from WAZIUP Weather Station)", "ΔºC")}
+            {this.renderGraph("diff","humidity", "Humidity (Difference from WAZIUP Weather Station)", "Δ%")}
+
           </Container>:""}
         </div>)} />
     );
@@ -162,6 +172,6 @@ class Data_ extends Component {
 }
 
 
-const Data = compose(postDataLoader,{env:{location: location},loadingHandler: () => (
+const Data = compose(postDataLoader,{env:{config: config},loadingHandler: () => (
   <p>Loading...</p>
 )})(Data_);

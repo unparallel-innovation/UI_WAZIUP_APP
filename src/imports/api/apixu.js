@@ -1,7 +1,7 @@
 export {apixu}
 import moment from 'moment'
-function apixu(callback,startDate,location){
-  var location = location?location:"38.67,-9.2";
+function apixu(callback,startDate,config){
+  var location = config && config.location?config.location:"38.67,-9.2";
   var formatedDate = moment(startDate).format('YYYY-MM-DD')
   Meteor.call('getPage','http://api.apixu.com/v1/history.json?key=05d72599bed946d8983155015170512&q='+location+'&dt='+formatedDate,{timeout:15000},function(err,apixuData){
     Meteor.call('getPage','http://api.apixu.com/v1/current.json?key=05d72599bed946d8983155015170512&q='+location,{timeout:15000},function(err,apixuDataCurrent){

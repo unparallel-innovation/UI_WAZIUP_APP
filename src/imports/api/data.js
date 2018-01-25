@@ -70,7 +70,7 @@ function getDiffVector(weatherStationData,dataVect){
 }
 
 function postDataLoader(props, onData,env) {
-  var location = env.location?env.location:"38.67,-9.2"
+  var config = env.config?env.config:{}
   var date = new Date(props.match.params.date).getTime();
   var d = new Date();
   d.setHours(0,0,0,0);
@@ -90,9 +90,9 @@ function postDataLoader(props, onData,env) {
           darkSky: darkSkyData,
           startDate: moment(startDate).format('YYYY-MM-DD')
         })
-      },startDate,location);
-    },startDate,location);
-  },startDate)
+      },startDate,config);
+    },startDate,config);
+  },startDate,config)
 }
 if(Meteor.isServer){
   Meteor.methods({

@@ -1,14 +1,19 @@
 export {weatherStation}
 import moment from 'moment'
-function weatherStation(callback,startDate){
-  var formatedDate = moment(startDate).format('YYYY-MM-DD')
-  Meteor.call('getPage','http://elasticsearch.waziup.io/waziup-ui-weather/_search?q=name:WeatherStationUI&sort=time:desc&size=6000&q=time:'+formatedDate,{timeout:15000},function(err,weatherStationData){
-    //Meteor.call('getPage','http://elasticsearch.waziup.io/waziup-ui-weather/_search?q=name:WeatherStationUI&sort=time:desc&size=1',function(err,weatherStationDataLast){
+function weatherStation(callback,startDate,config){
+  var elasticsearchUrl = config && config.elasticsearchUrl?config.elasticsearchUrl:""
+  var elasticsearchSearchQuery = config && config.elasticsearchSearchQuery?config.elasticsearchSearchQuery:""
+  var brokerUrl = config && config.brokerUrl?config.brokerUrl:""
+  var fiwareServicePath = config && config.fiwareServicePath?config.fiwareServicePath:""
+  var fiwareService = config && config.fiwareService?config.fiwareService:""
 
-      Meteor.call('getPage','http://broker.waziup.io/v2/entities/WeatherStationUI',{
+  var formatedDate = moment(startDate).format('YYYY-MM-DD')
+  Meteor.call('getPage', elasticsearchUrl + '?q='+elasticsearchSearchQuery+'&sort=time:desc&size=6000&q=time:'+formatedDate,{timeout:15000},function(err,weatherStationData){
+    Meteor.call('getPage',elasticsearchUrl + '?q='+elasticsearchSearchQuery+'&sort=time:desc&size=1',{timeout:15000},function(err,weatherStationDataLast){
+      Meteor.call('getPage',brokerUrl,{
         headers: {
-            "Fiware-ServicePath":"/UI/WEATHER",
-            "Fiware-Service":"waziup"
+            "Fiware-ServicePath":fiwareServicePath,
+            "Fiware-Service":fiwareService
           },
           timeout: 15000
         },function(err,weatherStationDataCurrent){
@@ -61,27 +66,20 @@ function weatherStation(callback,startDate){
               }
             }
             if(weatherStationDataCurrent.data.TP){
-              //WSCurrentData.temperature = weatherStationDataCurrent.data.TP.value
-              WSCurrentData.temperature = temperature
+              WSCurrentData.temperature = weatherStationDataCurrent.data.TP.value
+              //WSCurrentData.temperature = temperature
             }
             if(weatherStationDataCurrent.data.HD){
-              //WSCurrentData.humidity = weatherStationDataCurrent.data.HD.value
-              WSCurrentData.humidity = humidity
+              WSCurrentData.humidity = weatherStationDataCurrent.data.HD.value
+              //WSCurrentData.humidity = humidity
             }
             var lastDate = null;
-            /*if(weatherStationDataLast){
-              if(weatherStationDataLast.data){
-                if(weatherStationDataLast.data.hits){
-                  if(weatherStationDataLast.data.hits.hits){
-                    if(weatherStationDataLast.data.hits.hits.length){
-                      lastDate = weatherStationDataLast.data.hits.hits[0].sort[0]
-                    }
-                  }
-                }
-              }
-            }*/
+            if(weatherStationDataLast && weatherStationDataLast.data && weatherStationDataLast.data.hits && weatherStationDataLast.data.hits.hits && weatherStationDataLast.data.hits.hits.length){
+              lastDate = weatherStationDataLast.data.hits.hits[0].sort[0]
+            }
             if(WSParsedData.length){
-              WSCurrentData.date = WSParsedData[WSParsedData.length-1].date
+              WSCurrentData.date = lastDate
+              //WSCurrentData.date = WSParsedData[WSParsedData.length-1].date
             }
 
           }
@@ -90,6 +88,6 @@ function weatherStation(callback,startDate){
             current: WSCurrentData
           },startDate);
       })
-    //});
+    });
   })
 }
