@@ -36,7 +36,7 @@ function getDiffVector(weatherStationData,dataVect){
           {
             var delta = record.date-weatherStationData.historic[i].date
 
-            if(delta<3600000 && delta>0){
+            if(delta<3600000){
               if(weatherStationData.historic[i].temperature)
               {
                 sumTemperature = sumTemperature + weatherStationData.historic[i].temperature
@@ -53,6 +53,7 @@ function getDiffVector(weatherStationData,dataVect){
           }
           if(sumTemperature && sumHumidity)
           {
+
             diff.push({
               date: record.date,
               temperature: Math.abs(sumTemperature/nTemperature - record.temperature),
