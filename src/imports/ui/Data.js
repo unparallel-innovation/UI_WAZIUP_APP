@@ -17,8 +17,8 @@ const config = {
   elasticsearchUrl : "http://elasticsearch.waziup.io/waziup-ui-weather/_search",
   elasticsearchSearchQuery : "name:WeatherStationUI",
   brokerUrl : "http://broker.waziup.io/v2/entities/WeatherStationUI",
-  fiwareServicePath : "/UI/WEATHER",
-  fiwareService : "waziup"
+  fiwareService : "waziup",
+  fiwareServicePath : "/UI/WEATHER"
 }
 
 class Data_ extends Component {
@@ -26,7 +26,7 @@ class Data_ extends Component {
     super(props)
     this.handleChange = this.handleChange.bind(this);
   }
-  renderGraph(type,field, title, unit){
+  renderGraph(type,field, title, unit,headerDate){
     var weatherStation = this.props.weatherStation[type]?this.props.weatherStation[type].filter(function(record){
         return record[field]
     }).map(
@@ -71,7 +71,7 @@ class Data_ extends Component {
         type: 'datetime',
         plotLines: type!="diff"?[{
           color: '#FF8000',
-          value: new Date().getTime(),
+          value: headerDate,
           width: 1,
           label:{
             text: "Now",
@@ -103,6 +103,8 @@ class Data_ extends Component {
     var weatherStationTemp = this.props.weatherStation?this.props.weatherStation.current.temperature:""
     var apixuTemp = this.props.apixu?this.props.apixu.current.temperature:""
     var darkSkyTemp = this.props.darkSky?this.props.darkSky.current.temperature:""
+
+    var headerDate = this.props.weatherStation && this.props.weatherStation.headerDate?this.props.weatherStation.headerDate:null;
 
     var weatherStationHumidity = this.props.weatherStation?this.props.weatherStation.current.humidity:""
     var apixuHumidity = this.props.apixu?this.props.apixu.current.humidity:""
@@ -160,10 +162,10 @@ class Data_ extends Component {
                 dateFormat="DD-MM-YYYY"
             />
             <br></br>
-            {this.renderGraph("historic","temperature", "Temperature", "ºC")}
-            {this.renderGraph("historic","humidity", "Humidity", "%")}
-            {this.renderGraph("diff","temperature", "Temperature (Difference from WAZIUP Weather Station)", "ΔºC")}
-            {this.renderGraph("diff","humidity", "Humidity (Difference from WAZIUP Weather Station)", "Δ%")}
+            {this.renderGraph("historic","temperature", "Temperature", "ºC",headerDate)}
+            {this.renderGraph("historic","humidity", "Humidity", "%",headerDate)}
+            {this.renderGraph("diff","temperature", "Temperature (Difference from WAZIUP Weather Station)", "ΔºC",headerDate)}
+            {this.renderGraph("diff","humidity", "Humidity (Difference from WAZIUP Weather Station)", "Δ%",headerDate)}
 
           </Container>:""}
         </div>)} />

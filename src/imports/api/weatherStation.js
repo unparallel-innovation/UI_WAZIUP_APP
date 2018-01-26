@@ -17,6 +17,7 @@ function weatherStation(callback,startDate,config){
           },
           timeout: 15000
         },function(err,weatherStationDataCurrent){
+          var headerDate = weatherStationDataLast && weatherStationDataLast.headers && weatherStationDataLast.headers.date?(new Date(weatherStationDataLast.headers.date)).getTime():null;
           var WSParsedData = [];
           var WSCurrentData = {}
           var d = new Date();
@@ -85,7 +86,8 @@ function weatherStation(callback,startDate,config){
           }
           callback({
             historic: WSParsedData,
-            current: WSCurrentData
+            current: WSCurrentData,
+            headerDate: headerDate
           },startDate);
       })
     });
