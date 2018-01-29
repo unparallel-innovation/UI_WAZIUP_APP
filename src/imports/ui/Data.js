@@ -52,13 +52,13 @@ class Data_ extends Component {
     }
     if(apixu.length){
       series.push({
-        name:"Apixu",
+        name:type!="diff"?"Apixu":"Difference from Apixu",
         data: apixu
       })
     }
     if(darkSky.length){
       series.push({
-        name:"Dark Sky",
+        name:type!="diff"?"Dark Sky":"Difference from Dark Sky",
         data: darkSky
       })
     }
