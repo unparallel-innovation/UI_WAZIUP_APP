@@ -154,7 +154,7 @@ class Data_ extends Component {
               </tbody>
             </Table>
             <hr></hr>
-            <h5>Historic Weather Data</h5>
+            <h5>Historic Forecast Weather Data</h5>
             Showing data from:
             <DatePicker
                 selected={this.props.match.params.date?moment(this.props.match.params.date):moment()}
